@@ -13,8 +13,7 @@ export default function Projects() {
             Projects
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-          동료들과 협업하고, 혁신을 향해 도전했던
-          다양한 경험을 바탕으로 성장해왔습니다.
+            동료들과 협업하고, 혁신을 향해 도전했던 다양한 경험을 바탕으로 성장해왔습니다.
           </p>
         </div>
         <div className="container py-12">
