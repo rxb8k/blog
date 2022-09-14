@@ -1,18 +1,26 @@
 const projectsData = [
   {
-    title: 'A Search Engine',
-    description: `What if you could look up any information in the world? Webpages, images, videos
-    and more. Google has many features to help you find exactly what you're looking
-    for.`,
+    title: '플젝 1',
+    description: '설명',
     imgSrc: '/static/images/google.png',
     href: 'https://www.google.com',
   },
   {
-    title: 'The Time Machine',
-    description: `Imagine being able to travel back in time or to the future. Simple turn the knob
-    to the desired date and press "Go". No more worrying about lost keys or
-    forgotten headphones with this simple yet affordable solution.`,
-    imgSrc: '/static/images/time-machine.jpg',
+    title: '플젝 2',
+    description: 'ㅇㅇ',
+    imgSrc: '/static/images/google.png',
+    href: '/blog/the-time-machine',
+  },
+  {
+    title: '플젝 3',
+    description: 'ㅇㅇ',
+    imgSrc: '/static/images/google.png',
+    href: '/blog/the-time-machine',
+  },
+  {
+    title: '플젝 4',
+    description: 'ㅇㅇ',
+    imgSrc: '/static/images/google.png',
     href: '/blog/the-time-machine',
   },
 ]

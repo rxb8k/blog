@@ -32,7 +32,6 @@ export const MDXComponents: ComponentMap = {
   a: CustomLink,
   pre: Pre,
   wrapper: Wrapper,
-  BlogNewsletterForm,
 }
 
 export const MDXLayoutRenderer = ({ layout, content, ...rest }: MDXLayout) => {

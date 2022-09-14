@@ -1,8 +1,8 @@
 const siteMetadata = {
-  title: '',
+  title: '숨 참고 Dev Dive',
   author: 'Jinseo Song',
-  headerTitle: 'TailwindBlog',
-  description: 'Back-end Developer',
+  headerTitle: '숨 참고 Dev Dive',
+  description: '숨 참고 Dev Dive 🏊🏻‍♀️ 진서의 백엔드 개발자 성장기',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://blog-rxb8k.vercel.app/',
