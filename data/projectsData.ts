@@ -1,12 +1,12 @@
 const projectsData = [
   {
-    title: '플젝 1',
+    title: '더꾸',
     description: '설명',
     imgSrc: '/static/images/google.png',
     href: 'https://www.google.com',
   },
   {
-    title: '플젝 2',
+    title: 'BLOV',
     description: 'ㅇㅇ',
     imgSrc: '/static/images/google.png',
     href: '/blog/the-time-machine',
