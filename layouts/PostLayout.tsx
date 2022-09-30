@@ -8,8 +8,9 @@ import siteMetadata from '@/data/siteMetadata'
 import Comments from '@/components/comments'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import { CoreContent } from '@/lib/utils/contentlayer'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import type { Blog, Authors } from 'contentlayer/generated'
+import TOCInline from '@/components/TOCInline'
 
 const editUrl = (slug) => `${siteMetadata.siteRepo}/blob/master/data/blog/${slug}`
 const discussUrl = (slug) =>
@@ -18,7 +19,7 @@ const discussUrl = (slug) =>
   )}`
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
-  weekday: 'long',
+  //weekday: 'long',
   year: 'numeric',
   month: 'long',
   day: 'numeric',
@@ -104,11 +105,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
               <div className="prose max-w-none pt-10 pb-8 dark:prose-dark">{children}</div>
               <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
-                <Link href={discussUrl(slug)} rel="nofollow">
-                  {'Discuss on Twitter'}
-                </Link>
-                {` • `}
-                <Link href={editUrl(slug)}>{'View on GitHub'}</Link>
               </div>
               <Comments frontMatter={content} />
             </div>
