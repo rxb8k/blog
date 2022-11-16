@@ -98,6 +98,89 @@ Rank 데이터에 접근한다.
 이들은 프로그램 실행 도중 변경되어서는 안되므로, private 및 final 세팅을 통해
 나름의 캡슐화와 보안 처리(?)를 했다.
 
+## 자바 예외 전파하기
+
+⛔️ _5 tests completed, 1 failed. FAILURE: Build failed with an exception._
+
+ApplicationTest의 예외 테스트가 자꾸 실패했다.
+입력으로 '1000j'가 들어온 경우에 대한 테스트이다.
+당황스러운 것은 나는 이미 그 부분에 대한 예외 처리를 구현해,
+동작을 확인해두었다는 것이다.. WHAT ??? 🤯
+
+아래는 정수가 아닌 입력에 대해 내가 기존에 구현해두었던 예외 처리.
+입력을 받는 Input 클래스의 getPurchaseAmount() 메소드에서
+입력을 받은 뒤 이 함수를 호출해 예외를 확인하고,
+예외가 발생하면 IllegalArgumentException을 던지는 의도로 구현했다.
+실제 실행에선 문제가 없었지만, 예외 테스트는 계속 실패했다.
+(각 문자의 아스키코드를 직접 검사하는 상당히 비효율적인 로직으로 작성했는데,
+결론적으로 이 메소드는 삭제되어 사용되지 않았다. 이에 대해서는 후술한다.)
+
+```
+public static void checkPurchaseMoneyInputForm(String purchaseMoneyInput) {
+    for (int i=0; i<purchaseMoneyInput.length(); i++) {
+        char inputDigit = purchaseMoneyInput.charAt(i);
+        if (inputDigit < 48 || inputDigit > 58) {
+            throw new IllegalArgumentException("[ERROR] 정수를 입력하세요");
+        }
+    }
+}
+```
+
+알아보니 이는 assertThat()이 예외를 인식하지 못했기 때문에 생기는 문제다.
+예외를 인식하지 못하니 당연히 해당 예외에서 발생한 에러 메시지 출력도
+인식하지 못하고, 테스트가 실패로 끝나게 된다.
+
+이에 대한 해결책 중 하나로, **예외 전파**의 개념을 새로 알게 되었다.
+예외 전파란 예외가 발생한 뒤, 발생한 예외가 다른 상위 계층으로 전달될 때마다
+이를 새로운 예외에 포함시켜 다시 예외를 던짐으로써 발생한 예외를 보존하는 과정이다.
+
+발생한 예외를 올바르게 전파하도록 getPurchaseAmount()를 다음과 같이 수정했다.
+기존의 getPurchaseAmount()는 위 checkPurchaseMoneyInputForm() 호출을 통해 입력 형태를 확인하고
+만약 예외가 발생한다면 checkPurchaseMoneyInputForm()에서 예외가 발생한 채 프로그램이 종료되고,
+예외가 발생하지 않는다면 정수 변환 등의 추후 동작이 실행된다.
+
+수정된 getPurchaseAmount()에서는 try ... catch 문을 사용하여,
+정수 변환을 시도한 뒤 에러가 발생하면 메시지를 출력하는 식으로 변경되었다.
+
+```
+public int getPurchaseAmount() {
+    System.out.println("구입금액을 입력해 주세요.");
+    String purchaseMoneyInput = Console.readLine();
+    int purchaseMoney = 0;
+
+    try {
+        purchaseMoney = Integer.valueOf(purchaseMoneyInput);
+    } catch (Exception notOnlyNumber) {
+        System.out.println("[ERROR] 정수를 입력하세요");
+    }
+
+    Validator.checkPurchaseMoney(purchaseMoney);
+    int purchaseAmount = purchaseMoney / 1000;
+    return purchaseAmount;
+}
+```
+
+이때, 숫자가 아닌 입력을 걸러내는 로직을 직접 구현할 필요가 없다.
+자바의 Exception 클래스에서 제공하는 NumberFormatException
+케이스가 있기 때문이다.
+따라서 숫자로 변환할 수 없는 문자가 포함된 예외가 발생했을 경우
+따로 커스텀 예외를 만들지 않아도 되며,
+Exception 객체가 감지되었을 경우를 기반으로 예외 처리를 구현했다.
+
+내가 기존에 구현한 방식대로면 [입력 로직] -> [입력값 검증 로직] 이 진행된 뒤
+[입력값 검증 로직]에서 예외가 발생하고 프로그램이 그 위치에서 종료된다.
+그러나 이렇게 수정하고 나니 [입력 로직]에서 바로 예외 발생을 확인하고 처리할 수 있어
+문제가 발생한 위치를 더욱 명확하게 알 수 있겠다는 생각이 들었다.
+
+이렇게 폭풍 구글링 끝에 코드 수정을 마치고 나니 어느덧 제출 8분 전이었다.
+정말.. 신이 도왔다.. ㅠㅠ
+하지만 아직 Junit5 사용과 자바의 예외 처리, 예외 전파에 대한 내용은 익숙치 않아서
+해결은 했지만 찝찝한 느낌이다.
+이에 대해서는 더 공부가 필요하다.
+
+🔍 도움을 받은 자료들
+https://yeonyeon.tistory.com/170, https://castleone.tistory.com/12
+
 # 잘한 점
 
 - 1주차부터 꾸준히 기능 목록을 업데이트 해오고 있었다.
@@ -126,5 +209,5 @@ Rank 데이터에 접근한다.
   이 전체적인 흐름을 진행하는 play() 메소드를 만들었는데,
   이 메소드에서는 번호 입력부터 수익률 출력까지 모든 동작의 메소드 호출을 담당하기 때문에
   함수 하나의 기능이 너무 비대해진 느낌이다.
-  짜면서도 계속 '이게 맞나..' 라는 생각이 들었다. 이 부분에 대해서는
+  짜면서도 계속 '이게 맞나..' 라는 생각이 들었는데, 이 부분에 대해서는
   미션 제출이 끝나고 커뮤니티에 한 번 의견을 여쭤봐야겠다.
