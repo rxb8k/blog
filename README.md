@@ -1,4 +1,6 @@
-![tailwind-nextjs-banner](/public/static/images/twitter-card.png)
+블로그 댓글기능 추가하기
+
+노션에 포스팅 목록 있음
 
 # Tailwind Nextjs Starter Blog
 
