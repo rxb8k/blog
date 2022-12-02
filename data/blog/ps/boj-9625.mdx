@@ -1,0 +1,34 @@
+---
+title: '백준 9625. BABBA 파이썬 풀이 (DP)'
+date: '2022-12-02'
+lastmod: '2022-12-02'
+tags: ['알고리즘', 'Probelm Solving', 'DP']
+draft: false
+summary: ''
+images: ['']
+authors: ['default']
+layout: PostLayout
+---
+
+## 문제
+
+[백준 9625. BABBA](https://www.acmicpc.net/problem/9625)
+
+## 풀이
+
+## 코드
+
+```
+a = []
+b = []
+
+a.append(1)
+b.append(0)
+
+for i in range(1, 46):
+    a.append(b[i-1])
+    b.append(a[i-1] + b[i-1])
+
+K = int(input())
+print(a[K], b[K])
+```
